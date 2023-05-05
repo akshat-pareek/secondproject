@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hdfc.capstone.employeemanagement.dto.EmployeeDTO;
+import com.hdfc.capstone.employeemanagement.exception.InvalidEmployeeIdException;
 import com.hdfc.capstone.employeemanagement.service.IEmployeeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +31,12 @@ public class EmployeeRestController {
 	
 	@GetMapping("/getById/{employeeId}")
 	public EmployeeDTO getEmployee(@PathVariable long employeeId) throws Exception{
-		logger.info("EmployeeId: "+employeeId);
-		return employeeService.getEmployeeByEmployeeID(employeeId);
+		try {
+			logger.info("EmployeeId: "+employeeId);
+			return employeeService.getEmployeeByEmployeeID(employeeId);
+		}catch(NumberFormatException exc) {
+			throw new InvalidEmployeeIdException("Provide the employeeId in long format only");
+		}
 	}
 	
 	@RequestMapping(value="/endpoint", method=RequestMethod.OPTIONS)
