@@ -7,6 +7,7 @@ import com.hdfc.capstone.employeemanagement.configure.AESEncryptiion;
 import com.hdfc.capstone.employeemanagement.dto.EmployeeDTO;
 import com.hdfc.capstone.employeemanagement.entity.Employee;
 import com.hdfc.capstone.employeemanagement.exception.EmployeeNotFoundException;
+import com.hdfc.capstone.employeemanagement.exception.InvalidEmployeeIdException;
 import com.hdfc.capstone.employeemanagement.repository.EmployeeRepository;
 
 @Service
@@ -18,15 +19,19 @@ public class EmployeeServiceImplementation implements IEmployeeService{
 	@Override
 	public EmployeeDTO getEmployeeByEmployeeID(long employeeId) throws Exception {
 		
-		Employee employee=employeeRepository.findById(employeeId).
-							orElseThrow(()->new EmployeeNotFoundException("Employee not found with Id:"+employeeId));
-		
-		EmployeeDTO employeeDto=new EmployeeDTO();
-		employeeDto.setEmployeeId(employeeId);
-		employeeDto.setEmployeeName(employee.getEmployeeName());
-		employeeDto.setDateOfBirth(AESEncryptiion.encrypt(employee.getDateOfBirth().toString()));
-		
-		return employeeDto;
+		try {
+			Employee employee=employeeRepository.findById(employeeId).
+					orElseThrow(()->new EmployeeNotFoundException("Employee not found with Id:"+employeeId));
+
+			EmployeeDTO employeeDto=new EmployeeDTO();
+			employeeDto.setEmployeeId(employeeId);
+			employeeDto.setEmployeeName(employee.getEmployeeName());
+			employeeDto.setDateOfBirth(AESEncryptiion.encrypt(employee.getDateOfBirth().toString()));
+
+			return employeeDto;
+		}catch(NumberFormatException exc) {
+			throw new InvalidEmployeeIdException("Provide the employeeId in long format only");
+		}
 	}
 	
 }

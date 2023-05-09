@@ -8,14 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
-	@ExceptionHandler(InvalidEmployeeIdException.class)
-	public ResponseEntity<String> handleInvalidEmployeeIdException(InvalidEmployeeIdException exc){
-		return new ResponseEntity<String>("EmployeeId is not in the long format.",HttpStatus.BAD_REQUEST);
-	}
-	
 	@ExceptionHandler(NumberFormatException.class)
 	public ResponseEntity<String> handleNumberFormatException(NumberFormatException exc){
-		return new ResponseEntity<String>("Provide the employeeId in long format only", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<String>("EmployeeId can only be in long format.", HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(EmployeeNotFoundException.class)
