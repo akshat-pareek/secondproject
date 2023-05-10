@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AESEncryptiion {
 	
-	private static final String KEY = "32313029282726252423222120191817";
+    private static final String KEY = "32313029282726252423222120191817";
     
     public static String encrypt(String date) throws Exception {
         Security.addProvider(new BouncyCastleProvider());

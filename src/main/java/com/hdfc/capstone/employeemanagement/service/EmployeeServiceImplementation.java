@@ -33,5 +33,4 @@ public class EmployeeServiceImplementation implements IEmployeeService{
 			throw new InvalidEmployeeIdException("Provide the employeeId in long format only");
 		}
 	}
-	
 }
